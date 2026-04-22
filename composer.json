@@ -1,0 +1,23 @@
+{
+    "name": "asterios/go",
+    "description": "go creations assignment",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Asterios\\Go\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "azerv1",
+            "email": "asterioszer@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php-di/php-di": "dev-master",
+        "vlucas/phpdotenv": "^5.6@dev",
+        "slim/slim": "4.14",
+        "slim/psr7": "1.7"
+    }
+}
