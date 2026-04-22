@@ -15,11 +15,32 @@ return function (App $app, PDO $pdo): void {
     });
 
     $app->get('/vehicles', function (Request $request, Response $response) use ($pdo) {
-        $stmt = $pdo->query("
-            SELECT id, model_name, type_id, vehicle_type, doors, price, transmission, fuel, created_at
-            FROM vehicles
-            ORDER BY id ASC
-        ");
+        $params = $request->getQueryParams();
+        $sort = $params['sort'] ?? 'asc';
+        //4 shorting options
+        $sorting_choices =  [
+            'name_asc' => 'model_name ASC',
+            'name_desc'=> 'model_name DESC',
+            'price_asc'=> 'price ASC',
+            'price_desc'=> 'price DESC',
+        ];
+        $sorting_query = $sorting_choices[$sort] ?? 'id ASC';
+
+        $basic_querry = 'SELECT id, model_name, type_id, vehicle_type, doors, transmission, fuel, price FROM vehicles WHERE 1=1';
+
+        $extra_params = [];
+
+        if (!empty($params["transmission"])) {
+            $basic_querry .= " AND transmission= :transmission";
+            $extra_params[':transmission'] = $params['transmission'];
+        }
+        if (!empty($params["type_id"])) {
+            $basic_querry .= " AND type_id = :type_id";
+            $extra_params[':type_id'] = $params['type_id'];
+        }
+        $basic_querry .= ' ORDER BY ' . $sorting_query;
+        $stmt = $pdo->prepare($basic_querry);
+        $stmt->execute($extra_params);
 
         $vehicles = $stmt->fetchAll();
 
