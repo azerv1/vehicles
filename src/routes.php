@@ -28,7 +28,17 @@ return function (App $app, PDO $pdo): void {
 
         $basic_querry = 'SELECT id, model_name, type_id, vehicle_type, doors, transmission, fuel, price FROM vehicles WHERE 1=1';
 
+        //extra parameters logic
         $extra_params = [];
+
+        if (!empty($params["price_min"])) {
+            $basic_querry .= " AND price > :price_min";
+            $extra_params[':price_min'] = $params['price_min'];
+        }
+        if (!empty($params["price_max"])) {
+            $basic_querry .= " AND price < :price_max";
+            $extra_params[':price_max'] = $params['price_max'];
+        }
 
         if (!empty($params["transmission"])) {
             $basic_querry .= " AND transmission= :transmission";
@@ -44,6 +54,14 @@ return function (App $app, PDO $pdo): void {
 
         $vehicles = $stmt->fetchAll();
 
+        if ($stmt->rowCount() === 0) {
+            $response->getBody()->write(json_encode([
+                'message' => 'no vehicles meet that criteria'
+            ]));
+            return $response 
+                ->withHeader('Content-Type','application/json')
+                ->withStatus(404);
+        }
         $response->getBody()->write(json_encode([
             'status' => 'success',
             'data' => $vehicles,

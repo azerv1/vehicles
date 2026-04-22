@@ -10,7 +10,6 @@ $pdo = require __DIR__ . '/../src/db.php';
 $app = AppFactory::create();
 $app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
-$app->addErrorMiddleware(true, true, true);
-
+(require __DIR__ . '/../src/errors.php')($app);
 (require __DIR__ . '/../src/routes.php') ($app, $pdo);
 $app->run();
