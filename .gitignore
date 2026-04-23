@@ -2,3 +2,4 @@
 db_setup.php
 Dockerfile
 docker-compose.yaml
+copy.php

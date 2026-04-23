@@ -65,7 +65,7 @@ return function (App $app, PDO $pdo): void {
         $response->getBody()->write(json_encode([
             'status' => 'success',
             'data' => $vehicles,
-        ], JSON_UNESCAPED_UNICODE));
+        ]));
 
         return $response->withHeader('Content-Type', 'application/json');
     });

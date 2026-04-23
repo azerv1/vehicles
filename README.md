@@ -2,13 +2,17 @@
 
 ## Τρεξιμο
 
+Περιβάλλον PHP 8.5.5 & MYSQL 8.0.32, σιγουρευτείτε πως τα extensions pdf_mysql, mysqli είναι ενεργοποιημένα στο php.ini
+
 Μέσα στον Φάκελο
 
 `composer install`
 
 `mv .env_dev .env`  Για την χρηση env variables
 
-`mysql -u root -p < .\database\init\01_schema.sql && mysql -u root -p < .\database\init\02_user_creation.sql` Για τη δημιουργία δοκιμαστικής βάσης Mysql [ή `Get-Content .\database\init\01_schema.sql, .\database\init\02_user_creation.sql | mysql -u root -p` για powershell]
+Windows: `mysql -u root -p < .\database\init\01_schema.sql && mysql -u root -p < .\database\init\02_user_creation.sql` Για τη δημιουργία δοκιμαστικής βάσης Mysql [ή `Get-Content .\database\init\01_schema.sql, .\database\init\02_user_creation.sql | mysql -u root -p` για powershell]
+
+Linux : `sudo mysql < database\init\01_schema.sql && sudo mysql < database\init\02_user_creation.sql
 
 ` php -S localhost:8000 -t public` Για έναρξη
 
